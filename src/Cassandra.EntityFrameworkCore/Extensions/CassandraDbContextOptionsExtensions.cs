@@ -7,7 +7,11 @@ namespace Microsoft.EntityFrameworkCore;
 
 public static class CassandraDbContextOptionsExtensions
 {
-    public static DbContextOptionsBuilder UseCassandra(this DbContextOptionsBuilder  optionsBuilder, string connectionString, string defaultKeyspace, Action<CassandraDbContextOptionsBuilder> cassandraOptionsAction = null)
+    public static DbContextOptionsBuilder UseCassandra(
+        this DbContextOptionsBuilder optionsBuilder,
+        string connectionString,
+        string defaultKeyspace,
+        Action<CassandraDbContextOptionsBuilder> cassandraOptionsAction = null)
     {
         return UseCassandra(optionsBuilder, connectionString, defaultKeyspace, options =>
         {
@@ -26,7 +30,7 @@ public static class CassandraDbContextOptionsExtensions
                 );
         }, cassandraOptionsAction);
     }
-    
+
     public static DbContextOptionsBuilder UseCassandra(
         this DbContextOptionsBuilder optionsBuilder,
         string connectionString,

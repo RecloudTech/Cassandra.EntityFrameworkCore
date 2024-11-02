@@ -19,4 +19,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Serializers\"/>
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,7 @@
 ﻿using Cassandra.EntityFrameworkCore.Diagnostics;
+using Cassandra.EntityFrameworkCore.Infrastructure;
 using Cassandra.EntityFrameworkCore.Query.Factories;
+using Cassandra.EntityFrameworkCore.Query.Visitors.Dependencies;
 using Cassandra.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -11,37 +13,47 @@ namespace Microsoft.EntityFrameworkCore;
 
 public static class CassandraServiceCollectionExtensions
 {
+    public static IServiceCollection AddCassandra<TContext>(
+        this IServiceCollection serviceCollection,
+        string connectionString,
+        string defaultKeyspace,
+        Action<CassandraDbContextOptionsBuilder> cassandraOptionsAction = null)
+        where TContext : DbContext
+    {
+        return serviceCollection.AddDbContext<TContext>(
+            (_, options) => { options.UseCassandra(connectionString, defaultKeyspace, cassandraOptionsAction); });
+    }
+
     public static IServiceCollection AddEntityFrameworkCassandra(this IServiceCollection serviceCollection)
     {
         ArgumentNullException.ThrowIfNull(serviceCollection);
 
         new EntityFrameworkServicesBuilder(serviceCollection)
             .TryAdd<LoggingDefinitions, CassandraLoggingDefinitions>()
+            .TryAdd<IDatabase, CassandraDatabaseWrapper>()
             .TryAdd<IDatabaseProvider, DatabaseProvider<CassandraOptionsExtension>>()
             .TryAdd<IDatabaseCreator, CassandraDatabaseCreator>()
+            .TryAdd<IQueryContextFactory, CassandraQueryContextFactory>()
+            .TryAdd<ITypeMappingSource, CassandraTypeMappingSource>()
+            .TryAdd<IShapedQueryCompilingExpressionVisitorFactory,
+                CassandraShapedQueryCompilingExpressionVisitorFactory>()
             .TryAdd<IQueryableMethodTranslatingExpressionVisitorFactory,
                 CassandraQueryableMethodTranslatingExpressionVisitorFactory>()
+            .TryAddProviderSpecificServices(
+                b => b
+                    .TryAddSingleton<CassandraShapedQueryCompilingExpressionVisitorDependencies,
+                        CassandraShapedQueryCompilingExpressionVisitorDependencies>()
+            )
 
             // .TryAdd<IDbContextTransactionManager, MongoTransactionManager>()
             // .TryAdd<IModelValidator, MongoModelValidator>()
             // .TryAdd<IProviderConventionSetBuilder, MongoConventionSetBuilder>()
             // .TryAdd<IValueGeneratorSelector, MongoValueGeneratorSelector>()
-            // .TryAdd<IQueryContextFactory, MongoQueryContextFactory>()
-            // .TryAdd<ITypeMappingSource, MongoTypeMappingSource>()
             // .TryAdd<IValueConverterSelector, MongoValueConverterSelector>()
             // .TryAdd<IQueryTranslationPreprocessorFactory, MongoQueryTranslationPreprocessorFactory>()
             // .TryAdd<IQueryCompilationContextFactory, MongoQueryCompilationContextFactory>()
             // .TryAdd<IQueryTranslationPostprocessorFactory, MongoQueryTranslationPostprocessorFactory>()
-            // .TryAddProviderSpecificServices(
-            //     b => b
-            //         .TryAddScoped<IMongoClientWrapper, MongoClientWrapper>()
-            //         .TryAddSingleton<MongoShapedQueryCompilingExpressionVisitorDependencies,
-            //             MongoShapedQueryCompilingExpressionVisitorDependencies>()
-            //         .TryAddSingleton(new BsonSerializerFactory())
-            // )
 
-            // .TryAdd<IShapedQueryCompilingExpressionVisitorFactory, MongoShapedQueryCompilingExpressionVisitorFactory>()
-            // .TryAdd<IDatabase, CassandraDatabaseWrapper>()
             // .TryAdd<IModelRuntimeInitializer, MongoModelRuntimeInitializer>()
             .TryAddCoreServices();
 
