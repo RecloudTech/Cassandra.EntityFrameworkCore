@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C670121-599A-4C24-AA4B-D8146840B1C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{94AEE99D-3F9B-4C23-95F1-F843D0D87B29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cassandra.EntityFrameworkCore", "src\Cassandra.EntityFrameworkCore\Cassandra.EntityFrameworkCore.csproj", "{335FF198-84AD-467B-90A3-25710C15046A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cassandra.EntityFramework.Tests", "Cassandra.EntityFramework.Tests\Cassandra.EntityFramework.Tests.csproj", "{705562E8-4F82-44B0-ADE6-C9B2A4B6ED47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{BEE84014-2F9C-4671-9EAA-9AEECFB0966D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{335FF198-84AD-467B-90A3-25710C15046A} = {94AEE99D-3F9B-4C23-95F1-F843D0D87B29}
+		{705562E8-4F82-44B0-ADE6-C9B2A4B6ED47} = {9C670121-599A-4C24-AA4B-D8146840B1C4}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{335FF198-84AD-467B-90A3-25710C15046A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{335FF198-84AD-467B-90A3-25710C15046A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{335FF198-84AD-467B-90A3-25710C15046A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{335FF198-84AD-467B-90A3-25710C15046A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{705562E8-4F82-44B0-ADE6-C9B2A4B6ED47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{705562E8-4F82-44B0-ADE6-C9B2A4B6ED47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{705562E8-4F82-44B0-ADE6-C9B2A4B6ED47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{705562E8-4F82-44B0-ADE6-C9B2A4B6ED47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
